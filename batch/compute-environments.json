@@ -1,0 +1,29 @@
+{
+    "computeEnvironmentName": "on-demand-compute-environment",
+    "type": "MANAGED",
+    "state": "ENABLED",
+    "computeResources": {
+        "type": "EC2",
+        "minvCpus": 0,
+        "maxvCpus": 1,
+        "desiredvCpus": 0,
+        "imageId": "",
+        "instanceTypes": [
+            "m3.medium"
+        ],
+        "subnets": [
+            "[subnet_id]"
+        ],
+        "securityGroupIds": [
+            "[security_group_id]"
+        ],
+        "ec2KeyPair": "[key_pair_name]",
+        "instanceRole": "arn:aws:iam::[aws_account_id]:instance-profile/ecsInstanceRole",
+        "tags": {
+            "Name": "ex-aws-batch"
+        },
+        "bidPercentage": 0,
+        "spotIamFleetRole": ""
+    },
+    "serviceRole": "arn:aws:iam::[aws_account_id]:role/service-role/AWSBatchServiceRole"
+}

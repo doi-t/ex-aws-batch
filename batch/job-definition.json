@@ -1,0 +1,28 @@
+{
+    "jobDefinitionName": "python-s3-slack",
+    "type": "container",
+    "parameters": {},
+    "containerProperties": {
+        "image": "[aws_account_id].dkr.ecr.ap-northeast-1.amazonaws.com/ex-aws-batch",
+        "vcpus": 1,
+        "memory": 500,
+        "command": [
+            "python",
+            "app.py",
+            "[s3_bucket_name]",
+            "slack.json",
+            "[#slack_channel_name]"
+        ],
+        "jobRoleArn": "",
+        "volumes": [],
+        "environment": [],
+        "mountPoints": [],
+        "readonlyRootFilesystem": true,
+        "privileged": true,
+        "ulimits": [],
+        "user": ""
+    },
+    "retryStrategy": {
+        "attempts": 1
+    }
+}
