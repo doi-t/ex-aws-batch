@@ -4,8 +4,8 @@ Try to do something on AWS Batch.
 
 - [x] [Getting Start with AWS Batch](https://gist.github.com/doi-t/01e5241c9595e7b8e3540f0125bd4519)
 - [x] Run a Python script on AWS Batch
-- [x] Access S3 from an AWS Batch Job
-- [x] Send a slack notification from an AWS Batch Job
+- [x] Send a slack notification from the AWS Batch Job
+- [x] Load [exported logs from S3](https://github.com/doi-t/aws-lambda-cloudwatch-logs-exporter) in the AWS Batch Job
 - [ ] Try [AWS Batch Event Stream for CloudWatch Events](https://docs.aws.amazon.com/batch/latest/userguide/cloudwatch_event_stream.html)
 - [ ] Submit a job from AWS Lambda
 - [ ] Manage AWS Batch related resources with terraform
@@ -26,7 +26,7 @@ $ aws batch describe-job-definitions
 ```shell
 $ cat slack.json
 {
-    "webhook_url": "[slack_incoming_webhook_url]"
+    "webhook_url": "[your_slack_incoming_webhook_url]"
 }
 $ aws s3 cp slack.json s3://[s3 bucket name]/slack.json --sse
 $ export ECR_REPO_NAME=ex-aws-batch

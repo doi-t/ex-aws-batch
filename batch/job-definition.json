@@ -10,8 +10,9 @@
             "python",
             "app.py",
             "[s3_bucket_name]",
-            "slack.json",
-            "[#slack_channel_name]"
+            "[slack_s3_object_key]",
+            "[#slack_channel_name]",
+            "[log_s3_object_key]"
         ],
         "jobRoleArn": "",
         "volumes": [],
