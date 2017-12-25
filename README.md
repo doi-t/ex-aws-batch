@@ -40,18 +40,22 @@ $ aws ecr list-images --repository-name $ECR_REPO_NAME
 ```
 
 ## Submit a Job to AWS Batch
+
+> Environment variables must not start with AWS_BATCH; this naming convention is reserved for variables that are set by the AWS Batch service.
+> Ref. https://docs.aws.amazon.com/batch/latest/userguide/submit_job.html
+
 ```shell
 $ export BATCH_JOB_QUEUE_NAME=do-something-in-python
 $ export BATCH_JOB_DEFINITION_NAME=python-s3-slack
-$ export JOB_DEFINITION_ARN=$( aws batch describe-job-definitions \
-  --job-definition-name ${JOB_DEFINITION_NAME} \
+$ export BATCH_JOB_DEFINITION_ARN=$( aws batch describe-job-definitions \
+  --job-definition-name ${BATCH_JOB_DEFINITION_NAME} \
   --status ACTIVE \
   | jq -r '.jobDefinitions | max_by(.revision).jobDefinitionArn' \
-) && echo ${JOB_DEFINITION_ARN}
+) && echo ${BATCH_JOB_DEFINITION_ARN}
 $ aws batch submit-job \
   --job-name send-a-slack-notification \
   --job-queue `aws batch describe-job-queues --job-queues $BATCH_JOB_QUEUE_NAME | jq ".jobQueues[].jobQueueArn" -r` \
-  --job-definition $JOB_DEFINITION_ARN
+  --job-definition $BATCH_JOB_DEFINITION_ARN
 ```
 Ref. https://qiita.com/pottava/items/4151fcb9b14c51f50e9c
 
