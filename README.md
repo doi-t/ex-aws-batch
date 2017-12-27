@@ -39,6 +39,14 @@ $ docker push $ECR_REPO
 $ aws ecr list-images --repository-name $ECR_REPO_NAME
 ```
 
+### Retagging an Image
+Ref. https://docs.aws.amazon.com/AmazonECR/latest/userguide/retag-aws-cli.html
+```
+MANIFEST=$(aws ecr batch-get-image --repository-name $ECR_REPO_NAME --image-ids imageTag=latest --query images[].imageManifest --output text)
+aws ecr put-image --repository-name $ECR_REPO_NAME --image-tag [your_tag_name] --image-manifest "$MANIFEST"
+aws ecr describe-images --repository-name $ECR_REPO_NAME
+```
+
 ## Submit a Job to AWS Batch
 
 > Environment variables must not start with AWS_BATCH; this naming convention is reserved for variables that are set by the AWS Batch service.
