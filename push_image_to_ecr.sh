@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 ECR_REPO_NAME=ex-aws-batch
 if ! aws ecr describe-repositories --repository-names $ECR_REPO_NAME; then
     aws ecr create-repository --repository-name $ECR_REPO_NAME

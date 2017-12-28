@@ -41,17 +41,8 @@ $ ./push_image_to_ecr.sh
 
 ## Test on Local
 ```shell
-$ export ECR_REPO_NAME=ex-aws-batch
-$ export S3_BUCKET=ex-aws-batch
-$ export S3_SLACK_OBJECT_KEY=slack.json
-$ export SLACK_CHANNEL="#test"
-$ export TARGET_OBJECT_KEY="path/to/your/zip/file/on/s3"
-$ docker run \
-  -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-  -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-  `aws ecr describe-repositories --repository-names $ECR_REPO_NAME | jq ".repositories[].repositoryUri" -r` \
-  python app.py ${S3_BUCKET} ${S3_SLACK_OBJECT_KEY} ${SLACK_CHANNEL} ${TARGET_OBJECT_KEY}
-  ```
+$ ./test_on_local.sh "#test" "Test on local" "path/to/your/zip/file/on/s3"
+```
 
 ## Submit a Job to AWS Batch
 
@@ -59,21 +50,5 @@ $ docker run \
 > Ref. https://docs.aws.amazon.com/batch/latest/userguide/submit_job.html
 
 ```shell
-$ export S3_BUCKET=ex-aws-batch \
-  export S3_SLACK_OBJECT_KEY=slack.json \
-  export SLACK_CHANNEL="#test" \
-  export TARGET_OBJECT_KEY="path/to/your/zip/file/on/s3" \
-  export BATCH_JOB_QUEUE_NAME=ex-aws-batch \
-  export BATCH_JOB_DEFINITION_NAME=ex-aws-batch \
-  export BATCH_JOB_DEFINITION_ARN=$( aws batch describe-job-definitions \
-  --job-definition-name ${BATCH_JOB_DEFINITION_NAME} \
-  --status ACTIVE \
-  | jq -r '.jobDefinitions | max_by(.revision).jobDefinitionArn' \
-) && echo ${BATCH_JOB_DEFINITION_ARN}
-$ aws batch submit-job \
-  --job-name this-is-test-job \
-  --job-queue `aws batch describe-job-queues --job-queues $BATCH_JOB_QUEUE_NAME | jq ".jobQueues[].jobQueueArn" -r` \
-  --job-definition $BATCH_JOB_DEFINITION_ARN \
-  --container-overrides command="python","app.py","${S3_BUCKET}","${S3_SLACK_OBJECT_KEY}","${SLACK_CHANNEL}","${TARGET_OBJECT_KEY}"
+$ ./submit_job.sh "#test" "Test on AWS Batch" "path/to/your/zip/file/on/s3" "Batch Job Name"
 ```
-Ref. https://qiita.com/pottava/items/4151fcb9b14c51f50e9c
