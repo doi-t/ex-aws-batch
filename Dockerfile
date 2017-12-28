@@ -15,6 +15,3 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Copy the current directory contents into the container at /app
 ADD . /app
-
-# AWS Batch job will take over this part.
-# CMD ["python", "app.py", "[s3_bucket_name]", "slack.json", "[#slack_channel_name]"]
