@@ -12,6 +12,8 @@ def send_notification_to_slack(s3_bucket: str, slack_s3_object_key: str,
                                log_s3_object_key: str) -> Dict:
     s3 = boto3.resource('s3')
 
+    print(f'Getting {s3_bucket}/{log_s3_object_key}...')
+
     # load a gz file that comes from CloudWatch Logs on memory
     log_obj = s3.Object(s3_bucket, log_s3_object_key)
     log_response = log_obj.get()  # expect gz file from s3
@@ -23,6 +25,7 @@ def send_notification_to_slack(s3_bucket: str, slack_s3_object_key: str,
             timestamp, log = line.split(" ", 1)
             print(f'timestamp:{line}, log:{log}')
 
+    print(f'Getting {s3_bucket}/{slack_s3_object_key}...')
     slack_obj = s3.Object(s3_bucket, slack_s3_object_key)
     response = slack_obj.get()
     contents = json.loads(response['Body'].read())
@@ -39,6 +42,8 @@ def send_notification_to_slack(s3_bucket: str, slack_s3_object_key: str,
         ":tada:"
     }
     requests.post(slack_webhook_url, json=payload)
+
+    print(f'Sent a slack notification to {slack_channel}.')
 
     return payload
 
